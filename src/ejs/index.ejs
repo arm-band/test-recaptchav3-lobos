@@ -1,0 +1,32 @@
+<%- include('partial/_util') -%>
+<%
+    parameters = {
+        title: 'Home',
+        description: 'reCAPTHCA v3 の試験',
+        errFlag: false
+    }
+-%>
+<%- include('partial/_head', { parameters }) -%>
+<body>
+<%- include('partial/_header') -%>
+<main class="l-main">
+    <section class="container py-5">
+        <h1><i class="fas fa-fw fa-long-arrow-alt-up mr-2" aria-hidden="true"></i><%= parameters.title %><small class="ml-2" id="hello"></small></h1>
+        <p><%= parameters.description %></p>
+    </section>
+    <section class="container pb-5">
+        <form>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">テキスト</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">あなたのメールは他の誰とも共有しません。</div>
+            </div>
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+            <button type="submit" class="btn btn-primary">送信する</button>
+        </form>
+    </section>
+</main>
+<%- include('partial/_footer') -%>
+<%- include('partial/_js_loader') -%>
+</body>
+</html>
