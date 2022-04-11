@@ -3,9 +3,9 @@ Order Allow,Deny
 Allow from all
 Deny from env=ng_dir
 
-ErrorDocument 400 /error.html
-ErrorDocument 401 /error.html
-ErrorDocument 403 /error.html
-ErrorDocument 404 /error.html
-ErrorDocument 500 /error.html
-ErrorDocument 503 /error.html
+ErrorDocument 400 /loslobos/error.html
+ErrorDocument 401 /loslobos/error.html
+ErrorDocument 403 /loslobos/error.html
+ErrorDocument 404 /loslobos/error.html
+ErrorDocument 500 /loslobos/error.html
+ErrorDocument 503 /loslobos/error.html
