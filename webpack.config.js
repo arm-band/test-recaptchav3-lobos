@@ -1,8 +1,10 @@
-const webpackTerser = require('terser-webpack-plugin');
+const { DefinePlugin }       = require("webpack");
+const webpackTerser          = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const path          = require('path');
-const glob          = require('glob');
-const dir           = require('./gulp/dir');
+const path                   = require('path');
+const glob                   = require('glob');
+const fs                     = require('fs');
+const dir                    = require('./gulp/dir');
 
 const devFlag = true;
 
@@ -12,6 +14,26 @@ const mode = () => {
 const modeFlag = () => {
     return devFlag ? false : true;
 };
+const isExistFile = (file) => {
+    try {
+        fs.statSync(file);
+        return true;
+    } catch(err) {
+        if(err.code === 'ENOENT') {
+            return false;
+        }
+    }
+};
+const configFile = `${dir.src.php}/config/config.php`;
+    if(!isExistFile(configFile)) {
+        throw new Error('設定ファイルが存在しません。');
+    }
+    const strOrigin = fs.readFileSync(configFile, 'utf8');
+    const regex = /'SITEKEY[\d]+'[\s]+=> '(.*)'/ig;
+    let siteKeys = [];
+    while (result = regex.exec(strOrigin)) {
+        siteKeys.push(RegExp.$1);
+}
 const entry = () => {
     const entries = glob
         .sync(
@@ -35,6 +57,9 @@ const configs = {
         filename: '[name]'
     },
     plugins: [
+        new DefinePlugin({
+            'window.siteKeys': JSON.stringify(siteKeys),
+        }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
                 `${dir.dist.js}/**/*.js`

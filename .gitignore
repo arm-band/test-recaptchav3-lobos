@@ -4,3 +4,4 @@ package-lock.json
 /dist/**/*.css
 /dist/**/*.js
 /dist/**/*.php
+/src/php/config/config.php

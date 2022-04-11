@@ -1,9 +1,9 @@
 <%- include('partial/_util') -%>
 <%
     parameters = {
-        title: 'Error',
-        description: 'reCAPTHCA v3 の試験 / エラーページ',
-        errFlag: true
+        title: 'Finish',
+        description: 'reCAPTHCA v3 の試験 / 完了ページ',
+        errFlag: false
     }
 -%>
 <%- include('partial/_head', { parameters }) -%>
@@ -11,8 +11,9 @@
 <%- include('partial/_header') -%>
 <main class="l-main">
     <section class="container my-5">
-        <h1>Error</h1>
-        <p>An error has occurred.</p>
+        <h1>Finish</h1>
+        <p>処理が完了しました。</p>
+        <a href="./" class="btn-btn-secondary mt-3">トップへ戻る</a>
     </section>
 </main>
 <%- include('partial/_footer') -%>

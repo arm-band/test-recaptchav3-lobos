@@ -20,19 +20,19 @@
         "gulp-plumber": "^1.2.1",
         "gulp-rename": "^2.0.0",
         "gulp-sass": "^5.1.0",
-        "sass": "^1.49.11",
+        "sass": "^1.50.0",
         "gulp-autoprefixer": "^8.0.0",
-        "webpack": "^5.71.0",
+        "webpack": "^5.72.0",
         "webpack-stream": "^7.0.0",
         "terser-webpack-plugin": "^5.3.1",
         "clean-webpack-plugin": "^4.0.0"
     },
     "resolutions": {
-        "webpack": "^5.71.0"
+        "webpack": "^5.72.0"
     },
     "engines": {
         "node": ">=16.0.0",
-        "npm": ">=6.14.9"
+        "npm": ">=8.5.0"
     },
     "engineStrict": true
 }

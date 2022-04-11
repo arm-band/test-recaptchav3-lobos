@@ -25,9 +25,11 @@ const ejsBuild = () => {
         throw new Error('設定ファイルが存在しません。');
     }
     const strOrigin = fs.readFileSync(configFile, 'utf8');
-    const regex = /'SITEKEY'   => '(.*)'/gi;
-    regex.test(strOrigin);
-    console.log(RegExp.$1);
+    const regex = /'SITEKEY[\d]+'[\s]+=> '(.*)'/ig;
+    let siteKeys = [];
+    while (result = regex.exec(strOrigin)) {
+        siteKeys.push(RegExp.$1);
+    }
     return src(
         `${dir.src.ejs}/**/*.ejs`,
         {
@@ -45,7 +47,9 @@ const ejsBuild = () => {
     .pipe(data((file) => {
         return { 'filename': file.path }
     }))
-    .pipe(ejs())
+    .pipe(ejs({
+        siteKeys: siteKeys,
+    }))
     .pipe(rename({ extname: '.html' }))
     .pipe(dest(dir.dist.html));
 };
