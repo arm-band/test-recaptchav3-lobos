@@ -7,12 +7,18 @@ function err400() {
     include(__DIR__ . '/error.html');
     exit;
 }
+function err500() {
+    header('HTTP/1.1 500 Internal Server Error.');
+    include(__DIR__ . '/error.html');
+    exit;
+}
 function success() {
     header('HTTP/1.1 200 OK.');
     include(__DIR__ . '/finish.html');
     exit;
 }
 
+// filter_input で意図した値が拾えない場合は 400 を返却する
 $captchaResponse = filter_input(INPUT_POST, 'g-recaptcha-response');
 if(!isset($captchaResponse) || empty($captchaResponse) || !is_string($captchaResponse)) {
     error_log('reCAPTCHA のレスポンスコードがセットされていません。');
@@ -32,15 +38,18 @@ $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteve
 
 // APIレスポンス確認
 $responseData = json_decode($verifyResponse);
+// 認証に失敗した場合は 500 を返却する
 if($siteKeyID === 0) {
+    // パターン1 デフォルト
     if ($responseData->success) {
         success();
     } else {
         error_log('error' . (string)($siteKeyID + 1) . ': reCAPTCHA の認証でエラーが発生しました。');
-        err400();
+        err500();
     }
 }
 else if ($siteKeyID === 1) {
+    // パターン2 スコアも判定に使用し、あえて人間でも引っかかるように閾値を高くする。 0.9 前後が平均値の模様なので 0.95 を閾値にすると大体引っかかるようになる
     if ($responseData->success && $responseData->score >= 0.95) {
         error_log('info' . (string)($siteKeyID + 1) . ': reCAPTCHA の認証が成功しました。');
         error_log('score:' . $responseData->score);
@@ -48,14 +57,15 @@ else if ($siteKeyID === 1) {
     } else {
         error_log('error' . (string)($siteKeyID + 1) . ': reCAPTCHA の認証でエラーが発生しました。');
         error_log('score:' . $responseData->score);
-        err400();
+        err500();
     }
 }
 else {
+    // 上記以外のパターン。用意はしていないが一応
     if ($responseData->success) {
         success();
     } else {
         error_log('error' . (string)($siteKeyID + 1) . ': reCAPTCHA の認証でエラーが発生しました。');
-        err400();
+        err500();
     }
 }

@@ -48,7 +48,7 @@ const ejsBuild = () => {
         return { 'filename': file.path }
     }))
     .pipe(ejs({
-        siteKeys: siteKeys,
+        siteKeys: siteKeys, // 外部の値を EJS 内に持ち込む
     }))
     .pipe(rename({ extname: '.html' }))
     .pipe(dest(dir.dist.html));

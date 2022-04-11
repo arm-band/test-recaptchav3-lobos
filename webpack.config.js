@@ -58,7 +58,7 @@ const configs = {
     },
     plugins: [
         new DefinePlugin({
-            'window.siteKeys': JSON.stringify(siteKeys),
+            'window.siteKeys': JSON.stringify(siteKeys), // 外部の値を Webpack でバンドルする JS 内に持ち込む
         }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
